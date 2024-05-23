@@ -1489,6 +1489,13 @@ the alpha and beta components of each state.</p></li>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="ffsim.SupportsDiagonal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">SupportsDiagonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/protocols/diagonal_protocol.html#SupportsDiagonal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.SupportsDiagonal" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
+<p>A linear operator whose diagonal entries can be returned.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="ffsim.SupportsFermionOperator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">SupportsFermionOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/protocols/fermion_operator_protocol.html#SupportsFermionOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.SupportsFermionOperator" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
@@ -2431,6 +2438,17 @@ and False otherwise.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="ffsim.diag">
+<span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">diag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nelec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/protocols/diagonal_protocol.html#diag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.diag" title="Link to this definition">¶</a></dt>
+<dd><p>Return the diagonal entries of the linear operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ffsim.dim">
 <span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">dim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">norb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nelec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/states/states.html#dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.dim" title="Link to this definition">¶</a></dt>
 <dd><p>Get the dimension of the FCI space.</p>
@@ -2592,6 +2610,49 @@ operator on orbital <span class="math notranslate nohighlight">\(p\)</span> with
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The one-dimensional Fermi-Hubbard model Hamiltonian.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ffsim.fermi_hubbard_2d">
+<span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">fermi_hubbard_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">norb_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norb_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tunneling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interaction</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potential</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nearest_neighbor_interaction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/operators/fermi_hubbard.html#fermi_hubbard_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.fermi_hubbard_2d" title="Link to this definition">¶</a></dt>
+<dd><p>Two-dimensional Fermi-Hubbard model Hamiltonian.</p>
+<p>The Hamiltonian for the two-dimensional Fermi-Hubbard model on a square lattice with
+<span class="math notranslate nohighlight">\(N = N_x \times N_y\)</span> spatial orbitals is given by</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[H = -t \sum_{\sigma} \sum_{\braket{pq}}
+(a^\dagger_{\sigma, p} a_{\sigma, q} + \text{h.c.})
++ U \sum_{p=1}^{N} n_{\alpha, p} n_{\beta, p}
+- \mu \sum_{p=1}^{N} (n_{\alpha, p} + n_{\beta, p})
++ V \sum_{\sigma, \sigma'} \sum_{\braket{pq}} n_{\sigma, p} n_{\sigma', q}\]</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\braket{\dots}\)</span> denotes nearest-neighbor pairs and
+<span class="math notranslate nohighlight">\(n_{\sigma, p} = a_{\sigma, p}^\dagger a_{\sigma, p}\)</span> is the number operator
+on orbital <span class="math notranslate nohighlight">\(p\)</span> with spin <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1146/annurev-conmatphys-031620-102024">The Hubbard Model</a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>norb_x</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of spatial orbitals in the x-direction <span class="math notranslate nohighlight">\(N_x\)</span>.</p></li>
+<li><p><strong>norb_y</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of spatial orbitals in the y-direction <span class="math notranslate nohighlight">\(N_y\)</span>.</p></li>
+<li><p><strong>tunneling</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The tunneling amplitude <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p><strong>interaction</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The onsite interaction strength <span class="math notranslate nohighlight">\(U\)</span>.</p></li>
+<li><p><strong>chemical_potential</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
+<li><p><strong>nearest_neighbor_interaction</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The nearest-neighbor interaction strength
+<span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+<li><p><strong>periodic</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to use periodic boundary conditions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ffsim.FermionOperator" title="ffsim.FermionOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermionOperator</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The two-dimensional Fermi-Hubbard model Hamiltonian.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3014,9 +3075,45 @@ one-particle RDM, rank 2 corresponds to the 2-particle RDM, etc.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="ffsim.strings_to_indices">
+<span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">strings_to_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nelec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/states/states.html#strings_to_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.strings_to_indices" title="Link to this definition">¶</a></dt>
+<dd><p>Convert bitstrings to statevector indices.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ffsim</span>
+
+<span class="n">norb</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">nelec</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">dim</span> <span class="o">=</span> <span class="n">ffsim</span><span class="o">.</span><span class="n">dim</span><span class="p">(</span><span class="n">norb</span><span class="p">,</span> <span class="n">nelec</span><span class="p">)</span>
+<span class="n">ffsim</span><span class="o">.</span><span class="n">strings_to_indices</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;001011&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;010011&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;100011&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;001101&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;010101&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;100101&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;001110&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;010110&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;100110&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">norb</span><span class="p">,</span>
+    <span class="n">nelec</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># output:</span>
+<span class="c1"># array([0, 1, 2, 3, 4, 5, 6, 7, 8], dtype=int32)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ffsim.trace">
 <span class="sig-prename descclassname"><span class="pre">ffsim.</span></span><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nelec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ffsim/protocols/trace_protocol.html#trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ffsim.trace" title="Link to this definition">¶</a></dt>
-<dd><p>Return the trace of the object.</p>
+<dd><p>Return the trace of the linear operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
@@ -3210,6 +3307,7 @@ one-particle RDM, rank 2 corresponds to the 2-particle RDM, etc.</p></li>
 </li>
 <li><a class="reference internal" href="#ffsim.SupportsApplyUnitary"><code class="docutils literal notranslate"><span class="pre">SupportsApplyUnitary</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.SupportsApproximateEquality"><code class="docutils literal notranslate"><span class="pre">SupportsApproximateEquality</span></code></a></li>
+<li><a class="reference internal" href="#ffsim.SupportsDiagonal"><code class="docutils literal notranslate"><span class="pre">SupportsDiagonal</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.SupportsFermionOperator"><code class="docutils literal notranslate"><span class="pre">SupportsFermionOperator</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.SupportsLinearOperator"><code class="docutils literal notranslate"><span class="pre">SupportsLinearOperator</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.SupportsTrace"><code class="docutils literal notranslate"><span class="pre">SupportsTrace</span></code></a></li>
@@ -3246,11 +3344,13 @@ one-particle RDM, rank 2 corresponds to the 2-particle RDM, etc.</p></li>
 <li><a class="reference internal" href="#ffsim.des"><code class="docutils literal notranslate"><span class="pre">des()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.des_a"><code class="docutils literal notranslate"><span class="pre">des_a()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.des_b"><code class="docutils literal notranslate"><span class="pre">des_b()</span></code></a></li>
+<li><a class="reference internal" href="#ffsim.diag"><code class="docutils literal notranslate"><span class="pre">diag()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.dim"><code class="docutils literal notranslate"><span class="pre">dim()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.dims"><code class="docutils literal notranslate"><span class="pre">dims()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.expectation_one_body_power"><code class="docutils literal notranslate"><span class="pre">expectation_one_body_power()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.expectation_one_body_product"><code class="docutils literal notranslate"><span class="pre">expectation_one_body_product()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.fermi_hubbard_1d"><code class="docutils literal notranslate"><span class="pre">fermi_hubbard_1d()</span></code></a></li>
+<li><a class="reference internal" href="#ffsim.fermi_hubbard_2d"><code class="docutils literal notranslate"><span class="pre">fermi_hubbard_2d()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.fermion_operator"><code class="docutils literal notranslate"><span class="pre">fermion_operator()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.hartree_fock_state"><code class="docutils literal notranslate"><span class="pre">hartree_fock_state()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.indices_to_strings"><code class="docutils literal notranslate"><span class="pre">indices_to_strings()</span></code></a></li>
@@ -3266,6 +3366,7 @@ one-particle RDM, rank 2 corresponds to the 2-particle RDM, etc.</p></li>
 <li><a class="reference internal" href="#ffsim.slater_determinant"><code class="docutils literal notranslate"><span class="pre">slater_determinant()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.slater_determinant_rdm"><code class="docutils literal notranslate"><span class="pre">slater_determinant_rdm()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.spin_square"><code class="docutils literal notranslate"><span class="pre">spin_square()</span></code></a></li>
+<li><a class="reference internal" href="#ffsim.strings_to_indices"><code class="docutils literal notranslate"><span class="pre">strings_to_indices()</span></code></a></li>
 <li><a class="reference internal" href="#ffsim.trace"><code class="docutils literal notranslate"><span class="pre">trace()</span></code></a></li>
 </ul>
 </li>
