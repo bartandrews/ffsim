@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>ffsim.molecular_data - ffsim 0.0.48.dev0</title>
+        <title>ffsim.molecular_data - ffsim 0.0.49.dev0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/qiskit-sphinx-theme.css?v=8ff9dcb6" />
@@ -158,7 +158,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">ffsim 0.0.48.dev0</div></a>
+      <a href="../../index.html"><div class="brand">ffsim 0.0.49.dev0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">ffsim 0.0.48.dev0</span>
+  <span class="sidebar-brand-text">ffsim 0.0.49.dev0</span>
   
 </a>
 
@@ -297,7 +297,6 @@
 <span class="kn">import</span> <span class="nn">pyscf.mp</span>
 <span class="kn">import</span> <span class="nn">pyscf.symm</span>
 <span class="kn">import</span> <span class="nn">pyscf.tools</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span> <span class="nn">ffsim.hamiltonians</span> <span class="kn">import</span> <span class="n">MolecularHamiltonian</span>
 
@@ -463,34 +462,6 @@
             <span class="n">active_space</span><span class="o">=</span><span class="n">active_space</span><span class="p">,</span>
             <span class="n">hf_energy</span><span class="o">=</span><span class="n">hf_energy</span><span class="p">,</span>
         <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="MolecularData.from_mole">
-<a class="viewcode-back" href="../../api/ffsim.html#ffsim.MolecularData.from_mole">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="nd">@deprecated</span><span class="p">(</span>
-        <span class="s2">&quot;The from_mole method is deprecated. Instead, pass an SCF object directly to &quot;</span>
-        <span class="s2">&quot;from_scf.&quot;</span>
-    <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">from_mole</span><span class="p">(</span>
-        <span class="n">molecule</span><span class="p">:</span> <span class="n">pyscf</span><span class="o">.</span><span class="n">gto</span><span class="o">.</span><span class="n">Mole</span><span class="p">,</span>
-        <span class="n">active_space</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">scf_func</span><span class="o">=</span><span class="n">pyscf</span><span class="o">.</span><span class="n">scf</span><span class="o">.</span><span class="n">RHF</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MolecularData&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a MolecularData object from a PySCF molecule.</span>
-
-<span class="sd">        .. warning::</span>
-<span class="sd">            This method is deprecated. Instead, pass an SCF object directly to</span>
-<span class="sd">            :func:`from_scf`.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            molecule: The molecule.</span>
-<span class="sd">            active_space: An optional list of orbitals to use for the active space.</span>
-<span class="sd">            scf_func: The PySCF SCF function to use for the Hartree-Fock calculation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">hartree_fock</span> <span class="o">=</span> <span class="n">scf_func</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
-        <span class="n">hartree_fock</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">MolecularData</span><span class="o">.</span><span class="n">from_scf</span><span class="p">(</span><span class="n">hartree_fock</span><span class="p">,</span> <span class="n">active_space</span><span class="o">=</span><span class="n">active_space</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MolecularData.run_cisd">
@@ -754,7 +725,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b6f1cdf9"></script>
+</div><script src="../../_static/documentation_options.js?v=29b35963"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

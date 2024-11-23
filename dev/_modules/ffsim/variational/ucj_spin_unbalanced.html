@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>ffsim.variational.ucj_spin_unbalanced - ffsim 0.0.48.dev0</title>
+        <title>ffsim.variational.ucj_spin_unbalanced - ffsim 0.0.49.dev0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/qiskit-sphinx-theme.css?v=8ff9dcb6" />
@@ -158,7 +158,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">ffsim 0.0.48.dev0</div></a>
+      <a href="../../../index.html"><div class="brand">ffsim 0.0.49.dev0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">ffsim 0.0.48.dev0</span>
+  <span class="sidebar-brand-text">ffsim 0.0.49.dev0</span>
   
 </a>
 
@@ -283,32 +283,14 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.linalg</span>
 
 <span class="kn">from</span> <span class="nn">ffsim</span> <span class="kn">import</span> <span class="n">gates</span><span class="p">,</span> <span class="n">linalg</span>
 <span class="kn">from</span> <span class="nn">ffsim.variational.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">orbital_rotation_from_parameters</span><span class="p">,</span>
+    <span class="n">orbital_rotation_from_t1_amplitudes</span><span class="p">,</span>
     <span class="n">orbital_rotation_to_parameters</span><span class="p">,</span>
+    <span class="n">validate_interaction_pairs</span><span class="p">,</span>
 <span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_validate_interaction_pairs</span><span class="p">(</span>
-    <span class="n">interaction_pairs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">interaction_pairs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">interaction_pairs</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">interaction_pairs</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Duplicate interaction pairs encountered: </span><span class="si">{</span><span class="n">interaction_pairs</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">ordered</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">interaction_pairs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">j</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;When specifying alpha-alpha or beta-beta interaction pairs, &quot;</span>
-                    <span class="s2">&quot;you must provide only upper triangular pairs. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="si">}</span><span class="s2">, which is a lower triangular pair.&quot;</span>
-                <span class="p">)</span>
 
 
 <div class="viewcode-block" id="UCJOpSpinUnbalanced">
@@ -474,9 +456,9 @@
         <span class="k">if</span> <span class="n">interaction_pairs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">interaction_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">pairs_aa</span><span class="p">,</span> <span class="n">pairs_ab</span><span class="p">,</span> <span class="n">pairs_bb</span> <span class="o">=</span> <span class="n">interaction_pairs</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_aa</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_ab</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_aa</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_ab</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="c1"># Each same-spin diagonal Coulomb matrix has one parameter per upper triangular</span>
         <span class="c1"># entry unless indices are passed explicitly</span>
         <span class="n">n_triu_indices</span> <span class="o">=</span> <span class="n">norb</span> <span class="o">*</span> <span class="p">(</span><span class="n">norb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
@@ -582,17 +564,28 @@
                 <span class="p">)</span>
                 <span class="n">index</span> <span class="o">+=</span> <span class="n">n_params</span>
             <span class="c1"># Diag Coulomb matrices</span>
-            <span class="k">for</span> <span class="n">indices</span><span class="p">,</span> <span class="n">this_diag_coulomb_mat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">pairs_aa</span><span class="p">,</span> <span class="n">pairs_ab</span><span class="p">,</span> <span class="n">pairs_bb</span><span class="p">),</span>
-                <span class="n">diag_coulomb_mat</span><span class="p">,</span>
-            <span class="p">):</span>
-                <span class="k">if</span> <span class="n">indices</span><span class="p">:</span>
-                    <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
-                    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">indices</span><span class="p">)</span>
-                    <span class="n">vals</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">n_params</span><span class="p">]</span>
-                    <span class="n">this_diag_coulomb_mat</span><span class="p">[</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
-                    <span class="n">this_diag_coulomb_mat</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
-                    <span class="n">index</span> <span class="o">+=</span> <span class="n">n_params</span>
+            <span class="c1"># for indices, this_diag_coulomb_mat in zip(</span>
+            <span class="c1">#     (pairs_aa, pairs_ab, pairs_bb),</span>
+            <span class="c1">#     diag_coulomb_mat,</span>
+            <span class="c1"># ):</span>
+            <span class="c1">#     if indices:</span>
+            <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs_aa</span><span class="p">)</span>
+            <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">pairs_aa</span><span class="p">)</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">n_params</span><span class="p">]</span>
+            <span class="n">diag_coulomb_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+            <span class="n">diag_coulomb_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">n_params</span>
+            <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs_ab</span><span class="p">)</span>
+            <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">pairs_ab</span><span class="p">)</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">n_params</span><span class="p">]</span>
+            <span class="n">diag_coulomb_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">n_params</span>
+            <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">)</span>
+            <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">pairs_bb</span><span class="p">)</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">n_params</span><span class="p">]</span>
+            <span class="n">diag_coulomb_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+            <span class="n">diag_coulomb_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">n_params</span>
         <span class="c1"># Final orbital rotation</span>
         <span class="n">final_orbital_rotation</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">with_final_orbital_rotation</span><span class="p">:</span>
@@ -784,9 +777,9 @@
         <span class="k">if</span> <span class="n">interaction_pairs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">interaction_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">pairs_aa</span><span class="p">,</span> <span class="n">pairs_ab</span><span class="p">,</span> <span class="n">pairs_bb</span> <span class="o">=</span> <span class="n">interaction_pairs</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_aa</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">_validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_aa</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">validate_interaction_pairs</span><span class="p">(</span><span class="n">pairs_bb</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">t2aa</span><span class="p">,</span> <span class="n">t2ab</span><span class="p">,</span> <span class="n">t2bb</span> <span class="o">=</span> <span class="n">t2</span>
         <span class="n">nocc_a</span><span class="p">,</span> <span class="n">nocc_b</span><span class="p">,</span> <span class="n">nvrt_a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">t2ab</span><span class="o">.</span><span class="n">shape</span>
@@ -865,20 +858,8 @@
         <span class="n">final_orbital_rotation</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">t1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">t1a</span><span class="p">,</span> <span class="n">t1b</span> <span class="o">=</span> <span class="n">t1</span>
-
-            <span class="n">final_orbital_rotation_generator_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">norb</span><span class="p">,</span> <span class="n">norb</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-            <span class="n">final_orbital_rotation_generator_a</span><span class="p">[:</span><span class="n">nocc_a</span><span class="p">,</span> <span class="n">nocc_a</span><span class="p">:]</span> <span class="o">=</span> <span class="n">t1a</span>
-            <span class="n">final_orbital_rotation_generator_a</span><span class="p">[</span><span class="n">nocc_a</span><span class="p">:,</span> <span class="p">:</span><span class="n">nocc_a</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">t1a</span><span class="o">.</span><span class="n">T</span>
-            <span class="n">final_orbital_rotation_a</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">expm</span><span class="p">(</span>
-                <span class="n">final_orbital_rotation_generator_a</span>
-            <span class="p">)</span>
-
-            <span class="n">final_orbital_rotation_generator_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">norb</span><span class="p">,</span> <span class="n">norb</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-            <span class="n">final_orbital_rotation_generator_b</span><span class="p">[:</span><span class="n">nocc_b</span><span class="p">,</span> <span class="n">nocc_b</span><span class="p">:]</span> <span class="o">=</span> <span class="n">t1b</span>
-            <span class="n">final_orbital_rotation_generator_b</span><span class="p">[</span><span class="n">nocc_b</span><span class="p">:,</span> <span class="p">:</span><span class="n">nocc_b</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">t1b</span><span class="o">.</span><span class="n">T</span>
-            <span class="n">final_orbital_rotation_b</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">expm</span><span class="p">(</span>
-                <span class="n">final_orbital_rotation_generator_b</span>
-            <span class="p">)</span>
+            <span class="n">final_orbital_rotation_a</span> <span class="o">=</span> <span class="n">orbital_rotation_from_t1_amplitudes</span><span class="p">(</span><span class="n">t1a</span><span class="p">)</span>
+            <span class="n">final_orbital_rotation_b</span> <span class="o">=</span> <span class="n">orbital_rotation_from_t1_amplitudes</span><span class="p">(</span><span class="n">t1b</span><span class="p">)</span>
             <span class="n">final_orbital_rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">final_orbital_rotation_a</span><span class="p">,</span> <span class="n">final_orbital_rotation_b</span><span class="p">]</span>
             <span class="p">)</span>
@@ -894,7 +875,6 @@
             <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">norb</span><span class="p">,</span> <span class="n">norb</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
             <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">pairs_ab</span><span class="p">)</span>
             <span class="n">mask</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">mask</span><span class="p">[</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">diag_coulomb_mats</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="n">mask</span>
         <span class="k">if</span> <span class="n">pairs_bb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">norb</span><span class="p">,</span> <span class="n">norb</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
@@ -1033,7 +1013,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=b6f1cdf9"></script>
+</div><script src="../../../_static/documentation_options.js?v=29b35963"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
